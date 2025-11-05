@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 9151440685214213992}
   - component: {fileID: 6653582460680841150}
   - component: {fileID: 1174548904905005063}
-  - component: {fileID: 7401671801895044471}
   - component: {fileID: 2208853827892002070}
+  - component: {fileID: 7097171787906365248}
   m_Layer: 0
   m_Name: EnemyTwo
   m_TagString: Untagged
@@ -91,27 +91,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &7401671801895044471
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9207418728420716899}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2208853827892002070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,3 +103,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa1a54eaffcf5d740ac6df7d17565067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyTwo
+  HitWall: 0
+  explodeNow: {fileID: 0}
+  explosionPrefab: {fileID: 1268436192323998563, guid: 14eb75eaabb78b8439d8b7cbe5011d37, type: 3}
+--- !u!58 &7097171787906365248
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9207418728420716899}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5

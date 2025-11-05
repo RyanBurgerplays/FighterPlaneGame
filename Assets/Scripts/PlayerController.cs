@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     //how to define a variable
     //1. access modifier: public or private
@@ -64,5 +64,5 @@ public class Player : MonoBehaviour
         if (transform.position.y > 0) { transform.position = new Vector3(transform.position.x, 0, 0); }
         if (transform.position.y < -3.2) {transform.position = new Vector3(transform.position.x, -3.2f, 0); }
     }
-
+    public void LoseALife() { Debug.Log("Player hit! Lose a life."); }
 }
