@@ -49,7 +49,7 @@ public class EnemyTwo : MonoBehaviour
             explodeNow = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             //Destroy(this.gameObject);
             myCollider.enabled = false;
-            gameManager.AddScore(200);
+            gameManager.AddScore(2);
             Invoke("DieTime", 0.2f);
         }
     }

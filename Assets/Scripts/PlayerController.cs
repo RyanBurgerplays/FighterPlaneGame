@@ -19,12 +19,22 @@ public class PlayerController : MonoBehaviour
     //private float verticalScreenLimit = 6.5f;
 
     public GameObject bulletPrefab;
+    public int lives = 3;
+    private int weaponType;
+    private float speed;
+    private GameManager gameManager;
+    public GameObject explosionPrefab;
+    public GameObject thrusterPrefab;
+    public GameObject shieldPrefab;
 
     void Start()
     {
         playerSpeed = 6f;
         //This function is called at the start of the game
-        
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        lives = 3;
+        weaponType = 1;
+        gameManager.ChangeLivesText(lives);
     }
 
     void Update()
@@ -64,5 +74,66 @@ public class PlayerController : MonoBehaviour
         if (transform.position.y > 0) { transform.position = new Vector3(transform.position.x, 0, 0); }
         if (transform.position.y < -3.2) {transform.position = new Vector3(transform.position.x, -3.2f, 0); }
     }
-    public void LoseALife() { Debug.Log("Player hit! Lose a life."); }
+    public void LoseALife()
+    {
+        lives--;
+        gameManager.ChangeLivesText(lives);
+        if (lives == 0)
+        {
+            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            Destroy(this.gameObject);
+            gameManager.GameOver();
+
+        }
+    }
+    IEnumerator SpeedPowerDown() {
+        yield return new WaitForSeconds(3f);
+        playerSpeed = 6f;
+        thrusterPrefab.SetActive(false);
+
+    }
+    IEnumerator WeaponPowerDown()
+    {
+        yield return new WaitForSeconds(3f);
+        weaponType = 1;
+        gameManager.ManagePowerupText(0);
+        gameManager.PlaySound(2);
+        //??? // what the fuck do i put here 
+    }
+    private void OnTriggerEnter2D(Collider2D whatDidIHit)
+    {
+        if(whatDidIHit.gameObject.tag =="Powerup") //remember to give the tag powerup to the poweupwhen and make it kinimatic
+        {
+            Destroy(whatDidIHit.gameObject);
+            int whichPowerup = Random.Range(1, 4);
+            gameManager.PlaySound(1);
+            switch (whichPowerup)
+            {
+                case 1:
+                    playerSpeed = 10f;
+                    StartCoroutine(SpeedPowerDown());
+                    thrusterPrefab.SetActive(true);
+                    gameManager.ManagePowerupText(1);
+                    break;
+                case 2:
+                    weaponType = 2;
+                    StartCoroutine (WeaponPowerDown());
+                    gameManager.ManagePowerupText(2);
+                    break;
+                case 3:
+                    weaponType = 3;
+                    StartCoroutine(WeaponPowerDown());
+                    gameManager.ManagePowerupText(3);
+                    break;
+                case 4:
+                    gameManager.ManagePowerupText(4);
+                    break;
+            }
+        }
+        if (whatDidIHit.gameObject.tag == "Coin") {
+            gameManager.AddScore(1);
+            Destroy(whatDidIHit.gameObject);
+
+        }
+    }
 }
