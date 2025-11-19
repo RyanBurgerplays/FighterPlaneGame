@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     public GameObject explosionPrefab;
     public GameObject thrusterPrefab;
     public GameObject shieldPrefab;
-
+    public bool hasShield;
     void Start()
     {
         playerSpeed = 6f;
@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
         lives = 3;
         weaponType = 1;
         gameManager.ChangeLivesText(lives);
+        hasShield = false;
     }
 
     void Update()
@@ -76,8 +77,14 @@ public class PlayerController : MonoBehaviour
     }
     public void LoseALife()
     {
-        lives--;
-        gameManager.ChangeLivesText(lives);
+        if (hasShield == false)
+        {
+            lives--;
+        }
+        else {
+            shieldPrefab.SetActive(false);
+            hasShield = false; }
+            gameManager.ChangeLivesText(lives);
         if (lives == 0)
         {
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
@@ -100,6 +107,14 @@ public class PlayerController : MonoBehaviour
         gameManager.PlaySound(2);
         //??? // what the fuck do i put here 
     }
+    IEnumerator ShieldGot()
+    {
+        shieldPrefab.SetActive(true);
+        hasShield = true;
+        yield return new WaitForSeconds(3f);
+        gameManager.ManagePowerupText(0);
+
+    }
     private void OnTriggerEnter2D(Collider2D whatDidIHit)
     {
         if(whatDidIHit.gameObject.tag =="Powerup") //remember to give the tag powerup to the poweupwhen and make it kinimatic
@@ -110,10 +125,8 @@ public class PlayerController : MonoBehaviour
             switch (whichPowerup)
             {
                 case 1:
-                    playerSpeed = 10f;
-                    StartCoroutine(SpeedPowerDown());
-                    thrusterPrefab.SetActive(true);
-                    gameManager.ManagePowerupText(1);
+                    StartCoroutine(ShieldGot());
+                    gameManager.ManagePowerupText(4);
                     break;
                 case 2:
                     weaponType = 2;
@@ -126,7 +139,10 @@ public class PlayerController : MonoBehaviour
                     gameManager.ManagePowerupText(3);
                     break;
                 case 4:
-                    gameManager.ManagePowerupText(4);
+                    playerSpeed = 10f;
+                    StartCoroutine(SpeedPowerDown());
+                    thrusterPrefab.SetActive(true);
+                    gameManager.ManagePowerupText(1);
                     break;
             }
         }

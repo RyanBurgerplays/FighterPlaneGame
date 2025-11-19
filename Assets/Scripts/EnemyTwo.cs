@@ -8,7 +8,7 @@ public class EnemyTwo : MonoBehaviour
     private CircleCollider2D myCollider;
     public GameObject explosionPrefab;
     private GameManager gameManager;
-
+    private MeshRenderer myMesh;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +16,7 @@ public class EnemyTwo : MonoBehaviour
         HitWall = (Random.Range(0, 2) == 0);
         //Debug.Log(""+HitWall); //testing to make sure the randomize works
         myCollider = GetComponent<CircleCollider2D>();
+        myMesh = GetComponent<MeshRenderer>();
     }
 
     // Update is called once per frame
@@ -38,7 +39,7 @@ public class EnemyTwo : MonoBehaviour
         if (whatDidIHit.gameObject.tag == "Player")
         {
             whatDidIHit.GetComponent<PlayerController>().LoseALife();
-            explodeNow = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            explodeNow = Instantiate(explosionPrefab, new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity);
             // Destroy(this.gameObject);
             myCollider.enabled = false;
             Invoke("DieTime", 0.1f);
@@ -50,6 +51,7 @@ public class EnemyTwo : MonoBehaviour
             //Destroy(this.gameObject);
             myCollider.enabled = false;
             gameManager.AddScore(2);
+            myMesh.enabled = false;
             Invoke("DieTime", 0.2f);
         }
     }
